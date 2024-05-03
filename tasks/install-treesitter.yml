@@ -1,7 +1,7 @@
 # Tasks to install the latest tree-sitter
 ---
 
-- name: "Landing place for treesitter download exists."
+- name: "install-treesitter | Landing place for treesitter download exists."
   ansible.builtin.file:
     state: directory
     owner: root
@@ -9,19 +9,19 @@
     mode: '0750'
     path: "{{ treesitter_dl_dir }}"
 
-- name: "TreeSitter compressed binary downloaded. v{{ treesitter_version }}"
+- name: "install-treesitter | TreeSitter compressed binary downloaded. v{{ treesitter_version }}"
   ansible.builtin.get_url:
     url: "{{ treesitter_archive_url }}"
     dest: "{{ treesitter_dl_dir }}/{{ treesitter_dl_name }}"
     mode: '0555'
 
-- name: "TreeSitter: download decompressed v{{ treesitter_version }}"
+- name: "install-treesitter | TreeSitter: download decompressed v{{ treesitter_version }}"
   ansible.builtin.command:
     chdir: "{{ treesitter_dl_dir }}"
     cmd: gunzip --keep {{ treesitter_dl_name }}
     creates: "{{ treesitter_dl_dir }}/{{ treesitter_filename }}"
 
-- name: "TreeSitter installed v{{ treesitter_version }}"
+- name: "install-treesitter | TreeSitter installed v{{ treesitter_version }}"
   ansible.builtin.copy:
     remote_src: true
     src: "{{ treesitter_dl_dir }}/{{ treesitter_filename }}"

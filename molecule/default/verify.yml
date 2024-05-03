@@ -5,11 +5,12 @@
   gather_facts: true
 
   tasks:
-    - name: Get nvim information
-      ansible.builtin.shell: nvim -v
-      register: nvim_version
+    - name: Verify nvim exists
+      ansible.builtin.command: nvim -h
+      register: result
+      changed_when: result is not succeeded
 
-    - name: Print return information from the previous task
+    - name: Debug nvim result
       ansible.builtin.debug:
-        msg: nvim_version
+        var: result
         verbosity: 2

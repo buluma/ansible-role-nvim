@@ -1,13 +1,13 @@
 # Tasks to install latest neovim from appimage on GitHub
 ---
 
-- name: "Ensure old neovim from repository is absent."
+- name: "install-neovim | Ensure old neovim from repository is absent."
   ansible.builtin.apt:
     name: neovim
     state: absent
   when: ansible_os_family == "Debian" || ansible_os_family == "RedHat"
 
-- name: "Landing place for nvim download exists."
+- name: "install-neovim | Landing place for nvim download exists."
   ansible.builtin.file:
     state: directory
     owner: root
@@ -15,13 +15,13 @@
     mode: '0750'
     path: "{{ nvim_dl_dir }}"
 
-- name: "Ensure nvim appimage downloaded v{{ neovim_version }}"
+- name: "install-neovim | Ensure nvim appimage downloaded v{{ neovim_version }}"
   ansible.builtin.get_url:
     url: "{{ nvim_appimage_url }}"
     dest: "{{ nvim_dl_dir }}/nvim.appimage"
     mode: '0555'
 
-- name: "Ensure 'nvim' installed v{{ neovim_version }}"
+- name: "install-neovim | Ensure 'nvim' installed v{{ neovim_version }}"
   ansible.builtin.copy:
     src: "{{ nvim_dl_dir }}/nvim.appimage"
     dest: /usr/local/bin/nvim

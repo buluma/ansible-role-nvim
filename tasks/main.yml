@@ -24,6 +24,16 @@
     name: neovim
     state: latest
 
+- name: Verify nvim exists
+  ansible.builtin.command: nvim -h
+  register: result
+  changed_when: result is not succeeded
+
+- name: Check nvim result
+  ansible.builtin.debug:
+    var: result
+    verbosity: 2
+
 # - name: "Fedora - Ensure FUSE installed for using appimages."
 #   ansible.builtin.dnf:
 #     name:
