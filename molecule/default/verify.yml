@@ -3,13 +3,15 @@
   hosts: all
   become: true
   gather_facts: true
+  # verbosity: 2
 
   tasks:
     - name: Get Nvim version
       command: nvim -v
+      # verbosity: 2
       register: nvim_version
 
     - name: Debug
       ansible.builtin.debug:
         var: nvim_version
-        verbosity: 2
+        verbosity: 3
