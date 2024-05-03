@@ -1,0 +1,19 @@
+---
+# overrides for pyenv dependency
+pyenv_user: "{{ nvim_user }}"
+pyenv_root_suffix: "{{ nvim_pyenv_root_suffix }}"
+pyenv_python_versions:
+  - "{{ nvim_python_ver }}"
+
+# overrides for fnm dependency
+fnm_user: "{{ nvim_user }}"
+fnm_root_suffix: "{{ nvim_fnm_root_suffix }}"
+fnm_skip_shell: "{{ nvim_fnm_skip_shell|default(false) }}"
+fnm_nodejs_versions:
+  - "{{ nvim_nodejs_version }}"
+fnm_set_default_nodejs_ver: true
+fnm_npm_global_packages: "{{ nvim_npm_global_pkgs }}"
+
+# overrides for rust dependency
+rustup_user: "{{ nvim_user }}"
+rustup_cargo_crates: "{{ nvim_cargo_crates|list }}"

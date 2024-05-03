@@ -1,0 +1,10 @@
+---
+nvim_build_requirements:
+  - base-devel
+  - cmake
+  - unzip
+  - ninja
+
+nvim_lsp_requirements:
+  - clang
+  - unzip

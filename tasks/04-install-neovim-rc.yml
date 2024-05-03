@@ -1,0 +1,110 @@
+---
+- name: Install vim plugin manager
+  shell:
+    cmd: |
+      set -o pipefail
+      curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    creates: "~/.local/share/nvim/site/autoload/plug.vim"
+    executable: /bin/bash
+  environment:
+    HOME: "{{ nvim_user_home }}"
+  become: yes
+  become_user: "{{ nvim_user }}"
+
+- name: Clone nvim config from git repo
+  git:
+    repo: "{{ nvim_git_repo }}"
+    version: "{{ nvim_git_branch }}"
+    dest: "{{ nvim_git_dest }}"
+  register: nvim_git_result
+  changed_when: "nvim_git_result.after|default('after') != nvim_git_result.before|default('before')"
+  become: yes
+  become_user: "{{ nvim_user }}"
+
+- name: Ensure XDG_RUNTIME_DIR exsists
+  file:
+    path: /run/user/{{ nvim_user_uid }}
+    state: directory
+    owner: "{{ nvim_user_uid }}"
+    group: "{{ nvim_user_gid }}"
+    mode: 0700
+
+- name: Install neovim plugins
+  shell:
+    cmd: |
+      set -o pipefail
+      pyenv shell {{ nvim_python_ver }}
+      nvim --headless +'PlugInstall --sync' +'PlugUpdate' +qa
+    executable: /bin/bash
+  environment:
+    PYENV_ROOT: "{{ pyenv_root }}"
+    PATH: "{{ pyenv_root }}/bin:{{ fnm_default_nodejs_path }}:/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: nvim_plugin_install
+  changed_when: nvim_plugin_install.stdout_lines|length > 5
+  become: yes
+  become_user: "{{ nvim_user }}"
+
+- name: Define lsp cache dir
+  set_fact:
+    lsp_cache_home: "{{ nvim_user_home }}/.cache/nvim/lspconfig"
+
+- name: Install Language Servers
+  shell:
+    cmd: |
+      set -o pipefail
+      eval "$(pyenv init -)"
+      pyenv shell {{ nvim_python_ver }}
+      {% if fnm_npmrc_suffix is defined %}
+      export NPM_CONFIG_USERCONFIG="{{ nvim_user_home }}/{{ fnm_npmrc_suffix }}"
+      {% endif %}
+      nvim --headless +'LspInstall {{ item }}' +qa
+    executable: /bin/bash
+    creates: "{{ lsp_cache_home }}/{{ item }}"
+  environment:
+    PYENV_ROOT: "{{ pyenv_root }}"
+    PATH: "{{ pyenv_root }}/bin:{{ fnm_default_nodejs_path }}:/usr/loca/bin:{{ ansible_env.PATH }}"
+    XDG_CACHE_HOME: "{{ nvim_user_home }}/.cache"
+    XDG_CONFIG_HOME: "{{ nvim_user_home }}/.config"
+  with_items: "{{ nvim_lsp_servers }}"
+  become: yes
+  become_user: "{{ nvim_user }}"
+
+- name: Install lua-language-server manually
+  block:
+    - name: Make reuqired directory
+      file:
+        path: "{{ lsp_cache_home }}/sumneko_lua"
+        state: directory
+        mode: '0755'
+        owner: "{{ nvim_user_uid }}"
+        group: "{{ nvim_user_gid }}"
+
+    - name: Define lua-language-server dest
+      set_fact:
+        lua_ls_dest: "{{ lsp_cache_home }}/sumneko_lua/lua-language-server"
+
+    - name: Clone lua-language-server source
+      git:
+        version: master
+        repo: https://github.com/sumneko/lua-language-server.git
+        depth: 1
+        dest: "{{ lua_ls_dest }}"
+      register: lua_ls_git_result
+      changed_when: "lua_ls_git_result.after|default('after') != lua_ls_git_result.before|default('before')"
+
+    - name: Build lua-language-server
+      shell:
+        cmd: |
+          cd 3rd/luamake
+          ninja -f ninja/linux.ninja
+          cd ../..
+          # work around unittest failure
+          ./3rd/luamake/luamake rebuild || true
+        executable: /bin/bash
+        chdir: "{{ lua_ls_dest }}"
+        creates: "{{ lua_ls_dest }}/bin/Linux/lua-language-server"
+  environment:
+    HOME: "{{ nvim_user_home }}"
+  become: yes
+  become_user: "{{ nvim_user }}"

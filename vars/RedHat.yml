@@ -1,0 +1,17 @@
+---
+nvim_build_requirements:
+  - ninja-build
+  - libtool
+  - autoconf
+  - automake
+  - cmake
+  - gcc
+  - gcc-c++
+  - make
+  - pkgconfig
+  - unzip
+  - patch
+
+nvim_lsp_requirements:
+  - clang
+  - unzip

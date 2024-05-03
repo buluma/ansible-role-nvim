@@ -1,0 +1,7 @@
+---
+- src: hurricanehrndz.pyenv
+  version: master
+- src: hurricanehrndz.fnm
+  version: master
+- src: hurricanehrndz.rustup
+  version: master

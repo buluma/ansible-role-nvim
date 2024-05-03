@@ -1,0 +1,34 @@
+---
+# defaults file for ansible-nvim
+nvim_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+
+nvim_python_ver: 3.9.0
+
+nvim_python_mods:
+  - pynvim
+  - neovim-remote
+  - pyls-mypy
+  - "python-language-server[all]"
+
+nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
+nvim_git_branch: lua
+nvim_fzf_bin_only: false
+nvim_fnm_root_suffix: ".local/share/fnm"
+nvim_pyenv_root_suffix: ".local/share/pyenv"
+nvim_nodejs_version: "14.15.0"
+nvim_npm_global_pkgs:
+  - name: neovim
+
+# install fzf
+nvim_install_fzf: true
+
+# allow crates override
+nvim_cargo_crates: []
+nvim_install_rls: true
+
+# lsp servers to install
+nvim_lsp_servers:
+  - yamlls
+  - bashls
+  - tsserver
+  - vimls

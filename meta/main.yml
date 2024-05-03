@@ -1,0 +1,47 @@
+---
+galaxy_info:
+  author: buluma
+  role_name: nvim
+  description: Ansible role to install nvim configuration
+  license: Apache-2.0
+
+  min_ansible_version: 2.12
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Archlinux
+      versions:
+        - all
+
+  galaxy_tags:
+    - nvim
+    - neovim
+    - vim
+
+dependencies:
+  - role: hurricanehrndz.pyenv
+    when:
+      - run_pyenv_role|default(true)
+    tags:
+      - pyenv-dependency
+      - dependencies
+  - role: hurricanehrndz.fnm
+    when:
+      - run_fnm_role|default(true)
+    tags:
+      - nodejs-dependency
+      - dependencies
+  - role: hurricanehrndz.rustup
+    when:
+      - run_rustup_role|default(true)
+    tags:
+      - rustup-dependency
+      - dependencies

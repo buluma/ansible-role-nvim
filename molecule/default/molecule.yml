@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: lxd
+lint: |
+    yamllint .
+    ansible-lint .
+    flake8
+platforms:
+  - name: "nvim-${MLDISTRO:-ubuntu}"
+    alias: "${MLIMG:-ubuntu/focal}"
+provisioner:
+  name: ansible
+  playbooks:
+    create: ../resources/playbooks/create.yml
+    converge: ../resources/playbooks/converge.yml
+    destroy: ../resources/playbooks/destroy.yml
+verifier:
+  name: testinfra
+  directory: ../resources/tests/
+  options:
+    verbose: true

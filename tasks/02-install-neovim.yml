@@ -1,0 +1,34 @@
+---
+- name: Install neovim build requirements
+  package:
+    name: "{{ nvim_build_requirements }}"
+  become: true
+
+- name: Set neovim source destination
+  set_fact:
+    neovim_src_dest: "{{ nvim_src_dest|default(ansible_env.HOME + '/src/neovim') }}"
+
+- name: Clone neovim source
+  git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "{{ neovim_src_dest }}"
+    version: master
+    depth: 1
+
+- name: Register nvim_exists
+  stat:
+    path: /usr/local/bin/nvim
+  register: nvim_check
+
+- name: Build Neovim
+  community.general.make:
+    chdir: "{{ neovim_src_dest }}"
+    params: CMAKE_BUILD_TYPE=RelWithDebInfo
+  when: not nvim_check.stat.exists
+
+- name: Install Neovim
+  community.general.make:
+    chdir: "{{ neovim_src_dest }}"
+    target: install
+  become: true
+  when: not nvim_check.stat.exists
