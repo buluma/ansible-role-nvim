@@ -72,8 +72,6 @@ jobs:
             tag: "bullseye"
           - image: "docker-molecule-images"
             tag: "archlinux_latest"
-          - image: "docker-molecule-images"
-            tag: "opensuse"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4

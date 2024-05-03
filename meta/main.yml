@@ -19,9 +19,6 @@ galaxy_info:
     - name: Archlinux
       versions:
         - all
-    - name: opensuse
-      versions:
-        - all
   galaxy_tags:
     - development
     - nvim
