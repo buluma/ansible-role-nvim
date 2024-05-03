@@ -1,0 +1,15 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Get Nvim version
+      ansible.builtin.command:
+        name: nvim -v
+        register: nvim_version
+
+    - name: Debug
+      ansible.builtin.debug:
+        msg: nvim_version
