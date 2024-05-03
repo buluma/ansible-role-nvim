@@ -1,22 +1,22 @@
 ---
 - name: Get nvim_user from passwd database
-  getent:
+  ansible.builtin.getent:
     database: passwd
     key: "{{ nvim_user }}"
     split: ":"
 
 - name: Define nvim_user_home as {{ nvim_user }} home directory
-  set_fact:
+  ansible.builtin.set_fact:
     nvim_user_home: "{{ getent_passwd[nvim_user][4] }}"
 
 - name: Define nvim_user_uid
-  set_fact:
+  ansible.builtin.set_fact:
     nvim_user_uid: "{{ getent_passwd[nvim_user][1] }}"
 
 - name: Define nvim_user_gid
-  set_fact:
+  ansible.builtin.set_fact:
     nvim_user_gid: "{{ getent_passwd[nvim_user][2] }}"
 
 - name: Define nvim_git_dest
-  set_fact:
+  ansible.builtin.set_fact:
     nvim_git_dest: "{{ nvim_user_home }}/.config/nvim"

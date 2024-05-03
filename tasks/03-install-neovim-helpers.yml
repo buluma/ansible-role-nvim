@@ -1,6 +1,6 @@
 ---
 - name: Install neovim python helpers
-  pip:
+  ansible.builtin.pip:
     name: "{{ nvim_python_mods }}"
     executable: "{{ pyenv_root }}/versions/{{ nvim_python_ver }}/bin/pip"
   environment:
@@ -9,7 +9,7 @@
   become_user: "{{ nvim_user }}"
 
 - name: Rehash pip modules
-  shell:
+  ansible.builtin.shell:
     cmd: |
       eval "$(pyenv init - bash)"
       pyenv rehash
@@ -22,13 +22,13 @@
   become_user: "{{ nvim_user }}"
 
 - name: Install system requirements for LSP clients
-  package:
+  ansible.builtin.package:
     name: "{{ nvim_lsp_requirements }}"
     state: present
   become: true
 
 - name: Install rust-src for rust_analyzer
-  command:
+  ansible.builtin.command:
     cmd: rustup component add rust-src
     creates: "{{ nvim_user_home }}/{{ rustup_home_suffix }}/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/manifest-rust-src"
   environment:
@@ -41,7 +41,7 @@
     - nvim_install_rls|default(false)
 
 - name: Install rust_analyzer
-  shell:
+  ansible.builtin.shell:
     cmd: |
       set -o pipefail
       curl -fL                                                                                      \
@@ -57,7 +57,7 @@
 
 # Install supporting tools
 - name: Clone fzf
-  git:
+  ansible.builtin.git:
     repo: https://github.com/junegunn/fzf.git
     dest: "{{ nvim_user_home }}/.local/share/fzf/"
     version: master
@@ -67,7 +67,7 @@
   when: nvim_install_fzf|default(false)
 
 - name: Install fzf
-  shell:
+  ansible.builtin.shell:
     cmd: |
       set -o pipefail
       $HOME/.local/share/fzf/install \

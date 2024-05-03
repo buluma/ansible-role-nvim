@@ -1,7 +1,8 @@
 ---
-- src: hurricanehrndz.pyenv
-  version: master
-- src: hurricanehrndz.fnm
-  version: master
-- src: hurricanehrndz.rustup
-  version: master
+roles:
+  - name: buluma.bootstrap
+  - name: hurricanehrndz.pyenv
+  - name: hurricanehrndz.fnm
+  - name: hurricanehrndz.rustup
+collections:
+  - name: community.general

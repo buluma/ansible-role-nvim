@@ -1,0 +1,8 @@
+---
+#
+# Ansible managed
+#
+repository:
+  description: Ansible role to install nvim configuration
+  homepage: https://buluma.github.io/
+  topics: nvim, neovim, vim, ansible, molecule, tox, playbook

@@ -1,6 +1,6 @@
 ---
 - name: Install vim plugin manager
-  shell:
+  ansible.builtin.shell:
     cmd: |
       set -o pipefail
       curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -13,7 +13,7 @@
   become_user: "{{ nvim_user }}"
 
 - name: Clone nvim config from git repo
-  git:
+  ansible.builtin.git:
     repo: "{{ nvim_git_repo }}"
     version: "{{ nvim_git_branch }}"
     dest: "{{ nvim_git_dest }}"
@@ -23,7 +23,7 @@
   become_user: "{{ nvim_user }}"
 
 - name: Ensure XDG_RUNTIME_DIR exsists
-  file:
+  ansible.builtin.file:
     path: /run/user/{{ nvim_user_uid }}
     state: directory
     owner: "{{ nvim_user_uid }}"
@@ -31,7 +31,7 @@
     mode: 0700
 
 - name: Install neovim plugins
-  shell:
+  ansible.builtin.shell:
     cmd: |
       set -o pipefail
       pyenv shell {{ nvim_python_ver }}
@@ -46,11 +46,11 @@
   become_user: "{{ nvim_user }}"
 
 - name: Define lsp cache dir
-  set_fact:
+  ansible.builtin.set_fact:
     lsp_cache_home: "{{ nvim_user_home }}/.cache/nvim/lspconfig"
 
 - name: Install Language Servers
-  shell:
+  ansible.builtin.shell:
     cmd: |
       set -o pipefail
       eval "$(pyenv init -)"
@@ -73,7 +73,7 @@
 - name: Install lua-language-server manually
   block:
     - name: Make reuqired directory
-      file:
+      ansible.builtin.file:
         path: "{{ lsp_cache_home }}/sumneko_lua"
         state: directory
         mode: '0755'
@@ -81,11 +81,11 @@
         group: "{{ nvim_user_gid }}"
 
     - name: Define lua-language-server dest
-      set_fact:
+      ansible.builtin.set_fact:
         lua_ls_dest: "{{ lsp_cache_home }}/sumneko_lua/lua-language-server"
 
     - name: Clone lua-language-server source
-      git:
+      ansible.builtin.git:
         version: master
         repo: https://github.com/sumneko/lua-language-server.git
         depth: 1
@@ -94,7 +94,7 @@
       changed_when: "lua_ls_git_result.after|default('after') != lua_ls_git_result.before|default('before')"
 
     - name: Build lua-language-server
-      shell:
+      ansible.builtin.shell:
         cmd: |
           cd 3rd/luamake
           ninja -f ninja/linux.ninja

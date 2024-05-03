@@ -1,114 +1,24 @@
-# hurricanehrndz.nvim
+# Ansible role [nvim](https://galaxy.ansible.com/ui/standalone/roles/buluma/nvim/documentation)
 
-[![Build Status][action-badge]][action-link]
-[![Galaxy Role][role-badge]][role-link]
-[![MIT licensed][mit-badge]][mit-link]
+Ansible role to install nvim configuration
 
-Ansible role to install my [Neovim configuration][nvim-config].
+|GitHub|Version|Issues|Pull Requests|Downloads|
+|------|-------|------|-------------|---------|
+|[![github](https://github.com/buluma/ansible-role-nvim/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-nvim/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-nvim.svg)](https://github.com/buluma/ansible-role-nvim/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-nvim.svg)](https://github.com/buluma/ansible-role-nvim/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-nvim.svg)](https://github.com/buluma/ansible-role-nvim/pulls/)|[![Ansible Role](https://img.shields.io/ansible/role/d/buluma/nvim)](https://galaxy.ansible.com/ui/standalone/roles/buluma/nvim/documentation)|
 
-## Requirements
+## [Example Playbook](#example-playbook)
 
-None.
-
-## Role Variables
-
-A description of the settable variables for this role are listed below,
-including any variables that are in [defaults/main.yml](defaults/main.yml),
-[vars/main.yml](vars/main.yml), and any variables that can/should be set via
-parameters to the role.
+This example is taken from [`molecule/default/converge.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
 
 ```yaml
-nvim_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
-```
-
-The user for whom the Neovim runtime configuration and all its dependencies will
-get installed for, default is `ansible_user`.
-
-```yaml
-nvim_git_repo: "https://github.com/hurricanehrndz/nvim"
-```
-
-URL to git repository containing Neovim runtime configuration to be installed.
-
-```yaml
-nvim_python_ver: 3.8.0
-```
-
-Python version to install via `pyenv` dependency, as to provide support for python
-based plugins within Neovim.
-
-```yaml
-nvim_python_mods:
-  - pynvim
-  - neovim-remote
-  - vim-vint
-  - flake8
-  - yamllint
-  - jedi
-  - ansible
-  - testinfra
-  - docker
-  - molecule
-```
-
-`nvim_python_mods` is a list of python modules to be installed for support of
-completions engines and various other Neovim features. At a minimum, list
-should contain `pynvim`.
-
-```yaml
-nvim_fzf_bin_only: false
-```
-
-Set to `true`, to suppress modifications to `nvim_user`'s runtime
-shell configuration during fzf installation.
-
-```yaml
-nvim_fnm_root_suffix: ".local/share/fnm"
-```
-
-Install destination for `fnm` within `nvim_user`'s home directory.
-Defaults to `.local/share/fnm`.
-
-```yaml
-nvim_pyenv_root_suffix: ".local/share/pyenv"
-```
-
-Install destination for `pyenv` within `nvim_user`'s home directory.
-Defaults to `.local/share/pyenv`.
-
-```yaml
-nvim_nodejs_version: "latest-v12.x"
-```
-
-nodejs version to install.
-
-```yaml
-nvim_npm_global_pkgs: []
-```
-
-List of npm global packages to install, default includes `neovim` only.
-
-## Dependencies
-
-- hurricanehrndz.pyenv
-- hurricanehrndz.fnm
-- hurricanehrndz.rustup
-
-## Example Playbook
-
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
-
-```yaml
-- name: Install neovim configuration
+---
+- name: Converge
   hosts: all
   vars:
     nvim_user: hurricanehrndz
+    fnm_install_npmrc: true
+    fnm_npmrc_suffix: ".config/npm/config"
   tasks:
-    - name: Update repo cache
-      action: >
-        {{ ansible_pkg_mgr }} update_cache=yes
-
     - name: Add hurricanehrndz user
       user:
         name: "{{ nvim_user }}"
@@ -117,21 +27,111 @@ passed in as parameters) is always nice for users too:
 
     - name: Run nvim role
       include_role:
-        name: ansible-nvim
+        name: nvim
 ```
 
-## License
+Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
 
-[MIT](LICENSE)
+## [Role Variables](#role-variables)
 
-## Author Information
+The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/defaults/main.yml):
 
-[Carlos Hernandez aka HurricaneHrndz](https://github.com/hurricanehrndz)
+```yaml
+---
+# defaults file for ansible-nvim
+nvim_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
 
-[nvim-config]: https://github.com/hurricanehrndz/nvim
-[role-badge]: https://img.shields.io/ansible/role/d/46776?style=for-the-badge
-[role-link]: https://galaxy.ansible.com/hurricanehrndz/nvim/
-[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
-[mit-link]: https://raw.githubusercontent.com/hurricanehrndz/ansible-nvim/master/LICENSE
-[action-badge]: https://img.shields.io/github/workflow/status/hurricanehrndz/ansible-nvim/CI?style=for-the-badge
-[action-link]: https://github.com/hurricanehrndz/ansible-nvim/actions?query=workflow%3ACI
+nvim_python_ver: 3.9.0
+
+nvim_python_mods:
+  - pynvim
+  - neovim-remote
+  - pyls-mypy
+  - "python-language-server[all]"
+
+nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
+nvim_git_branch: lua
+nvim_fzf_bin_only: false
+nvim_fnm_root_suffix: ".local/share/fnm"
+nvim_pyenv_root_suffix: ".local/share/pyenv"
+nvim_nodejs_version: "14.15.0"
+nvim_npm_global_pkgs:
+  - name: neovim
+
+# install fzf
+nvim_install_fzf: true
+
+# allow crates override
+nvim_cargo_crates: []
+nvim_install_rls: true
+
+# lsp servers to install
+nvim_lsp_servers:
+  - yamlls
+  - bashls
+  - tsserver
+  - vimls
+```
+
+## [Requirements](#requirements)
+
+- pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-nvim/blob/master/requirements.txt).
+
+## [State of used roles](#state-of-used-roles)
+
+The following roles are used to prepare a system. You can prepare your system in another way.
+
+| Requirement | GitHub | Version |
+|-------------|--------|--------|
+|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Ansible Molecule](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-bootstrap.svg)](https://github.com/shadowwalker/ansible-role-bootstrap)|
+|[hurricanehrndz.pyenv](https://galaxy.ansible.com/buluma/hurricanehrndz.pyenv)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.pyenv.svg)](https://github.com/shadowwalker/hurricanehrndz.pyenv)|
+|[hurricanehrndz.fnm](https://galaxy.ansible.com/buluma/hurricanehrndz.fnm)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.fnm.svg)](https://github.com/shadowwalker/hurricanehrndz.fnm)|
+|[hurricanehrndz.rustup](https://galaxy.ansible.com/buluma/hurricanehrndz.rustup)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.rustup.svg)](https://github.com/shadowwalker/hurricanehrndz.rustup)|
+
+## [Dependencies](#dependencies)
+
+Most roles require some kind of preparation, this is done in `molecule/default/prepare.yml`. This role has a "hard" dependency on the following roles:
+
+- {'role': 'hurricanehrndz.pyenv', 'when': ['run_pyenv_role|default(true)'], 'tags': ['pyenv-dependency', 'dependencies']}
+- {'role': 'hurricanehrndz.fnm', 'when': ['run_fnm_role|default(true)'], 'tags': ['nodejs-dependency', 'dependencies']}
+- {'role': 'hurricanehrndz.rustup', 'when': ['run_rustup_role|default(true)'], 'tags': ['rustup-dependency', 'dependencies']}
+
+## [Context](#context)
+
+This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://buluma.github.io/) for further information.
+
+Here is an overview of related roles:
+
+![dependencies](https://raw.githubusercontent.com/buluma/ansible-role-nvim/png/requirements.png "Dependencies")
+
+## [Compatibility](#compatibility)
+
+This role has been tested on these [container images](https://hub.docker.com/u/buluma):
+
+|container|tags|
+|---------|----|
+|[Ubuntu](https://hub.docker.com/r/buluma/ubuntu)|all|
+|[Debian](https://hub.docker.com/r/buluma/debian)|all|
+|[Fedora](https://hub.docker.com/r/buluma/fedora)|all|
+|[Archlinux](https://hub.docker.com/r/buluma/archlinux)|all|
+
+The minimum version of Ansible required is 2.12, tests have been done to:
+
+- The previous version.
+- The current version.
+- The development version.
+
+If you find issues, please register them in [GitHub](https://github.com/buluma/ansible-role-nvim/issues)
+
+## [Changelog](#changelog)
+
+[Role History](https://github.com/buluma/ansible-role-nvim/blob/master/CHANGELOG.md)
+
+## [License](#license)
+
+[Apache-2.0](https://github.com/buluma/ansible-role-nvim/blob/master/LICENSE)
+
+## [Author Information](#author-information)
+
+[Shadow Walker](https://buluma.github.io/)
+

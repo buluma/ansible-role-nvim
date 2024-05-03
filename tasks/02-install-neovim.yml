@@ -1,22 +1,22 @@
 ---
 - name: Install neovim build requirements
-  package:
+  ansible.builtin.package:
     name: "{{ nvim_build_requirements }}"
   become: true
 
 - name: Set neovim source destination
-  set_fact:
+  ansible.builtin.set_fact:
     neovim_src_dest: "{{ nvim_src_dest|default(ansible_env.HOME + '/src/neovim') }}"
 
 - name: Clone neovim source
-  git:
+  ansible.builtin.git:
     repo: https://github.com/neovim/neovim.git
     dest: "{{ neovim_src_dest }}"
     version: master
     depth: 1
 
 - name: Register nvim_exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/nvim
   register: nvim_check
 
