@@ -71,6 +71,10 @@
   become_user: "{{ nvim_user }}"
 
 - name: 04-install-neovim-rc | Install lua-language-server manually
+  environment:
+    HOME: "{{ nvim_user_home }}"
+  become: true
+  become_user: "{{ nvim_user }}"
   block:
     - name: 04-install-neovim-rc | Make reuqired directory
       ansible.builtin.file:
@@ -104,7 +108,3 @@
         executable: /bin/bash
         chdir: "{{ lua_ls_dest }}"
         creates: "{{ lua_ls_dest }}/bin/Linux/lua-language-server"
-  environment:
-    HOME: "{{ nvim_user_home }}"
-  become: true
-  become_user: "{{ nvim_user }}"

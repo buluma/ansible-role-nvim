@@ -5,7 +5,7 @@
     key: "{{ nvim_user }}"
     split: ":"
 
-- name: 01-define-role-facts | Define nvim_user_home as {{ nvim_user }} home directory
+- name: 01-define-role-facts | Define nvim_user_home home directory as {{ nvim_user }}
   ansible.builtin.set_fact:
     nvim_user_home: "{{ getent_passwd[nvim_user][4] }}"
 

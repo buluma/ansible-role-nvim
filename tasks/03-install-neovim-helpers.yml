@@ -73,9 +73,9 @@
       $HOME/.local/share/fzf/install \
         {% if nvim_fzf_bin_only -%}
           --bin
-        {%- else -%}
+      {%- else -%}
           --all
-        {%- endif %}
+      {%- endif %}
     executable: /bin/bash
     creates: "{{ nvim_user_home }}/.local/share/fzf/bin/fzf"
   become: true
