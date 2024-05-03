@@ -78,6 +78,8 @@ jobs:
             tag: "opensuse"
           - image: "alpine-openrc"
             tag: "latest"
+          - image: "docker-molecule-images"
+            tag: "kalilinux"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4
