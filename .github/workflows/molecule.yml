@@ -34,14 +34,14 @@ concurrency:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: checkout
         uses: actions/checkout@v4
       - name: ansible-lint
         uses: ansible-community/ansible-lint-action@main
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -56,6 +56,10 @@ jobs:
             tag: "40"
           - image: "docker-molecule-images"
             tag: "rawhide"
+          - image: "enterpriselinux"
+            tag: "8"
+          - image: "enterpriselinux"
+            tag: "latest"
           - image: "docker-molecule-images"
             tag: "focal"
           - image: "docker-molecule-images"
@@ -68,6 +72,12 @@ jobs:
             tag: "buster"
           - image: "docker-molecule-images"
             tag: "bullseye"
+          - image: "docker-molecule-images"
+            tag: "archlinux_latest"
+          - image: "docker-molecule-images"
+            tag: "opensuse"
+          - image: "alpine-openrc"
+            tag: "latest"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4

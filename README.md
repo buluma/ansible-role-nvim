@@ -14,12 +14,15 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 ---
 - name: Converge
   hosts: all
+  become: true
+  gather_facts: true
   vars:
     nvim_user: shadowwalker
-    fnm_install_npmrc: true
-    fnm_npmrc_suffix: ".config/npm/config"
+    neovim: true
+    neovim_nightly: false
+    treesitter: true
   tasks:
-    - name: Add shadowwalker user
+    - name: Adding user
       ansible.builtin.user:
         name: "{{ nvim_user }}"
         create_home: true
@@ -41,10 +44,7 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 
   roles:
     - role: buluma.bootstrap
-    - role: hurricanehrndz.pyenv
-    - role: hurricanehrndz.fnm
-    - role: hurricanehrndz.rustup
-    - role: buluma.git
+    - role: buluma.ca_certificates
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -54,40 +54,45 @@ Also see a [full explanation and example](https://buluma.github.io/how-to-use-th
 The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/defaults/main.yml):
 
 ```yaml
+# Default variables for 'neovim' role
+#
+# These variables have the lowest priority of any variables available, and can
+# be easily overridden by any other variable, including inventory variables.
+#
+# (See Using Variables for more information)
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#playbooks-variables
 ---
-# defaults file for ansible-nvim
-nvim_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+# application versions
+neovim_version: "0.9.5"
+treesitter_version: "0.22.2"
 
-nvim_python_ver: 3.9.0
+# variables for downloading appimages
+nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
+nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim.appimage"
+treesitter_dl_dir: "/opt/treesitter/{{ treesitter_version }}"
+treesitter_dl_name: "tree-sitter-linux-x64.gz"
+treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{ treesitter_version }}/{{ treesitter_dl_name }}"
+treesitter_filename: "tree-sitter-linux-x64"
 
-nvim_python_mods:
-  - pynvim
-  - neovim-remote
-  - pyls-mypy
-  - "python-language-server[all]"
+# toggles for end-users
+neovim: true
+treesitter: true
+neovim_nightly: false
 
-nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
-nvim_git_branch: lua
-nvim_fzf_bin_only: false
-nvim_fnm_root_suffix: ".local/share/fnm"
-nvim_pyenv_root_suffix: ".local/share/pyenv"
-nvim_nodejs_version: "14.15.0"
-nvim_npm_global_pkgs:
-  - name: neovim
+neovim_pde: false
+neovim_apt_packages: []
+neovim_pip_packages: []
+neovim_npm_packages: []
+neovim_config_dirs: []
+neovim_external_config: []
+neovim_config_syncs: []
 
-# install fzf
-nvim_install_fzf: true
-
-# allow crates override
-nvim_cargo_crates: []
-nvim_install_rls: true
-
-# lsp servers to install
-nvim_lsp_servers:
-  - yamlls
-  - bashls
-  - tsserver
-  - vimls
+# digging deeper
+neovim_pip3_packager_state: latest
+neovim_npm_packager_state: latest
+neovim_pip3_state: latest
+neovim_apt_state: latest
+...
 ```
 
 ## [Requirements](#requirements)
@@ -101,10 +106,7 @@ The following roles are used to prepare a system. You can prepare your system in
 | Requirement | GitHub | Version |
 |-------------|--------|--------|
 |[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Ansible Molecule](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-bootstrap.svg)](https://github.com/shadowwalker/ansible-role-bootstrap)|
-|[hurricanehrndz.pyenv](https://galaxy.ansible.com/buluma/hurricanehrndz.pyenv)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.pyenv.svg)](https://github.com/shadowwalker/hurricanehrndz.pyenv)|
-|[hurricanehrndz.fnm](https://galaxy.ansible.com/buluma/hurricanehrndz.fnm)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.fnm.svg)](https://github.com/shadowwalker/hurricanehrndz.fnm)|
-|[hurricanehrndz.rustup](https://galaxy.ansible.com/buluma/hurricanehrndz.rustup)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.rustup.svg)](https://github.com/shadowwalker/hurricanehrndz.rustup)|
-|[buluma.git](https://galaxy.ansible.com/buluma/git)|[![Ansible Molecule](https://github.com/buluma/ansible-role-git/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-git/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-git.svg)](https://github.com/shadowwalker/ansible-role-git)|
+|[buluma.ca_certificates](https://galaxy.ansible.com/buluma/ca_certificates)|[![Ansible Molecule](https://github.com/buluma/ansible-role-ca_certificates/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-ca_certificates/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-ca_certificates.svg)](https://github.com/shadowwalker/ansible-role-ca_certificates)|
 
 ## [Context](#context)
 
@@ -121,8 +123,12 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 |container|tags|
 |---------|----|
 |[Fedora](https://hub.docker.com/r/buluma/fedora)|all|
+|[EL](https://hub.docker.com/r/buluma/enterpriselinux)|all|
 |[Ubuntu](https://hub.docker.com/r/buluma/ubuntu)|all|
 |[Debian](https://hub.docker.com/r/buluma/debian)|all|
+|[Archlinux](https://hub.docker.com/r/buluma/archlinux)|all|
+|[opensuse](https://hub.docker.com/r/buluma/opensuse)|all|
+|[Alpine](https://hub.docker.com/r/buluma/alpine)|all|
 
 The minimum version of Ansible required is 2.4, tests have been done to:
 

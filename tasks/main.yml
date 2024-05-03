@@ -10,6 +10,7 @@
       - libfuse2
     state: latest
   when: ansible_os_family == "Debian"
+  # ubuntu -- python3-neovim
 
 - name: "Fedora - Ensure FUSE installed for using appimages."
   ansible.builtin.dnf:
@@ -19,6 +20,14 @@
     state: latest
   when: ansible_os_family == "RedHat"
 
+# neovim python3-neovim - fedora
+# You can also get nightly builds of git master from the Copr automated build system:
+# dnf copr enable agriffis/neovim-nightly
+# dnf install -y neovim python3-neovim
+
+# Suse
+# To install the Python modules:
+# sudo zypper in python-neovim python3-neovim
 - name: "Ensure NVIM is installed from packages."
   ansible.builtin.package:
     name: neovim
