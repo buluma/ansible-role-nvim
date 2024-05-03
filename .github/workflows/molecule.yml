@@ -47,6 +47,16 @@ jobs:
       matrix:
         config:
           - image: "docker-molecule-images"
+            tag: "37"
+          - image: "docker-molecule-images"
+            tag: "38"
+          - image: "docker-molecule-images"
+            tag: "39"
+          - image: "docker-molecule-images"
+            tag: "40"
+          - image: "docker-molecule-images"
+            tag: "rawhide"
+          - image: "docker-molecule-images"
             tag: "focal"
           - image: "docker-molecule-images"
             tag: "bionic"
@@ -58,18 +68,6 @@ jobs:
             tag: "buster"
           - image: "docker-molecule-images"
             tag: "bullseye"
-          - image: "docker-molecule-images"
-            tag: "37"
-          - image: "docker-molecule-images"
-            tag: "38"
-          - image: "docker-molecule-images"
-            tag: "39"
-          - image: "docker-molecule-images"
-            tag: "40"
-          - image: "docker-molecule-images"
-            tag: "rawhide"
-          - image: "docker-molecule-images"
-            tag: "archlinux_latest"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4

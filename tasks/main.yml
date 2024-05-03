@@ -7,14 +7,22 @@
     - default.yml
 
 # tasks file for ansible-nvim
+- name: Import assert.yml
+  ansible.builtin.import_tasks:
+    file: 01-define-role-facts.yml
+
 - name: Define role facts
-  ansible.builtin.import_task: "01-define-role-facts.yml"
+  ansible.builtin.import_tasks:
+    file: 01-define-role-facts.yml
 
 - name: Build and install neovim
-  ansible.builtin.import_task: "02-install-neovim.yml"
+  ansible.builtin.import_tasks:
+    file: 02-install-neovim.yml
 
 - name: Install neovim providers
-  ansible.builtin.import_task: "03-install-neovim-helpers.yml"
+  ansible.builtin.import_tasks:
+    file: 03-install-neovim-helpers.yml
 
 - name: Install nvim config and prerequistes
-  ansible.builtin.import_task: "04-install-neovim-rc.yml"
+  ansible.builtin.import_tasks:
+    file: 04-install-neovim-rc.yml

@@ -1,6 +1,6 @@
 # Ansible role [nvim](https://galaxy.ansible.com/ui/standalone/roles/buluma/nvim/documentation)
 
-Ansible role to install nvim configuration
+Install and Configure NVIM on your Linux systems.
 
 |GitHub|Version|Issues|Pull Requests|Downloads|
 |------|-------|------|-------------|---------|
@@ -15,19 +15,32 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 - name: Converge
   hosts: all
   vars:
-    nvim_user: hurricanehrndz
+    nvim_user: shadowwalker
     fnm_install_npmrc: true
     fnm_npmrc_suffix: ".config/npm/config"
   tasks:
-    - name: Add hurricanehrndz user
-      user:
+    - name: Add shadowwalker user
+      ansible.builtin.user:
         name: "{{ nvim_user }}"
-        create_home: yes
+        create_home: true
         shell: /bin/bash
 
     - name: Run nvim role
-      include_role:
-        name: nvim
+      ansible.builtin.include_role:
+        name: buluma.nvim
+```
+
+The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/molecule/default/prepare.yml):
+
+```yaml
+---
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - role: buluma.bootstrap
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -49,7 +62,7 @@ nvim_python_mods:
   - pyls-mypy
   - "python-language-server[all]"
 
-nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
+nvim_git_repo: https://github.com/shadowwalker/nvim.git
 nvim_git_branch: lua
 nvim_fzf_bin_only: false
 nvim_fnm_root_suffix: ".local/share/fnm"
@@ -84,17 +97,9 @@ The following roles are used to prepare a system. You can prepare your system in
 | Requirement | GitHub | Version |
 |-------------|--------|--------|
 |[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Ansible Molecule](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-bootstrap.svg)](https://github.com/shadowwalker/ansible-role-bootstrap)|
-|[hurricanehrndz.pyenv](https://galaxy.ansible.com/buluma/hurricanehrndz.pyenv)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.pyenv.svg)](https://github.com/shadowwalker/hurricanehrndz.pyenv)|
-|[hurricanehrndz.fnm](https://galaxy.ansible.com/buluma/hurricanehrndz.fnm)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.fnm.svg)](https://github.com/shadowwalker/hurricanehrndz.fnm)|
-|[hurricanehrndz.rustup](https://galaxy.ansible.com/buluma/hurricanehrndz.rustup)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.rustup.svg)](https://github.com/shadowwalker/hurricanehrndz.rustup)|
-
-## [Dependencies](#dependencies)
-
-Most roles require some kind of preparation, this is done in `molecule/default/prepare.yml`. This role has a "hard" dependency on the following roles:
-
-- {'role': 'hurricanehrndz.pyenv', 'when': ['run_pyenv_role|default(true)'], 'tags': ['pyenv-dependency', 'dependencies']}
-- {'role': 'hurricanehrndz.fnm', 'when': ['run_fnm_role|default(true)'], 'tags': ['nodejs-dependency', 'dependencies']}
-- {'role': 'hurricanehrndz.rustup', 'when': ['run_rustup_role|default(true)'], 'tags': ['rustup-dependency', 'dependencies']}
+|[shadowwalker.pyenv](https://galaxy.ansible.com/buluma/shadowwalker.pyenv)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.pyenv.svg)](https://github.com/shadowwalker/shadowwalker.pyenv)|
+|[shadowwalker.fnm](https://galaxy.ansible.com/buluma/shadowwalker.fnm)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.fnm.svg)](https://github.com/shadowwalker/shadowwalker.fnm)|
+|[shadowwalker.rustup](https://galaxy.ansible.com/buluma/shadowwalker.rustup)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.rustup.svg)](https://github.com/shadowwalker/shadowwalker.rustup)|
 
 ## [Context](#context)
 
@@ -110,12 +115,11 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 
 |container|tags|
 |---------|----|
+|[Fedora](https://hub.docker.com/r/buluma/fedora)|all|
 |[Ubuntu](https://hub.docker.com/r/buluma/ubuntu)|all|
 |[Debian](https://hub.docker.com/r/buluma/debian)|all|
-|[Fedora](https://hub.docker.com/r/buluma/fedora)|all|
-|[Archlinux](https://hub.docker.com/r/buluma/archlinux)|all|
 
-The minimum version of Ansible required is 2.12, tests have been done to:
+The minimum version of Ansible required is 2.4, tests have been done to:
 
 - The previous version.
 - The current version.
@@ -134,4 +138,3 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 ## [Author Information](#author-information)
 
 [Shadow Walker](https://buluma.github.io/)
-
