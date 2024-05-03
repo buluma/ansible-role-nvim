@@ -41,6 +41,10 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 
   roles:
     - role: buluma.bootstrap
+    - role: hurricanehrndz.pyenv
+    - role: hurricanehrndz.fnm
+    - role: hurricanehrndz.rustup
+    - role: buluma.git
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -62,7 +66,7 @@ nvim_python_mods:
   - pyls-mypy
   - "python-language-server[all]"
 
-nvim_git_repo: https://github.com/shadowwalker/nvim.git
+nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
 nvim_git_branch: lua
 nvim_fzf_bin_only: false
 nvim_fnm_root_suffix: ".local/share/fnm"
@@ -97,9 +101,10 @@ The following roles are used to prepare a system. You can prepare your system in
 | Requirement | GitHub | Version |
 |-------------|--------|--------|
 |[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Ansible Molecule](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-bootstrap.svg)](https://github.com/shadowwalker/ansible-role-bootstrap)|
-|[shadowwalker.pyenv](https://galaxy.ansible.com/buluma/shadowwalker.pyenv)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.pyenv.svg)](https://github.com/shadowwalker/shadowwalker.pyenv)|
-|[shadowwalker.fnm](https://galaxy.ansible.com/buluma/shadowwalker.fnm)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.fnm.svg)](https://github.com/shadowwalker/shadowwalker.fnm)|
-|[shadowwalker.rustup](https://galaxy.ansible.com/buluma/shadowwalker.rustup)|[![Ansible Molecule](https://github.com/buluma/shadowwalker.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/shadowwalker.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/shadowwalker.rustup.svg)](https://github.com/shadowwalker/shadowwalker.rustup)|
+|[hurricanehrndz.pyenv](https://galaxy.ansible.com/buluma/hurricanehrndz.pyenv)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.pyenv/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.pyenv.svg)](https://github.com/shadowwalker/hurricanehrndz.pyenv)|
+|[hurricanehrndz.fnm](https://galaxy.ansible.com/buluma/hurricanehrndz.fnm)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.fnm/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.fnm.svg)](https://github.com/shadowwalker/hurricanehrndz.fnm)|
+|[hurricanehrndz.rustup](https://galaxy.ansible.com/buluma/hurricanehrndz.rustup)|[![Ansible Molecule](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/hurricanehrndz.rustup/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/hurricanehrndz.rustup.svg)](https://github.com/shadowwalker/hurricanehrndz.rustup)|
+|[buluma.git](https://galaxy.ansible.com/buluma/git)|[![Ansible Molecule](https://github.com/buluma/ansible-role-git/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-git/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-git.svg)](https://github.com/shadowwalker/ansible-role-git)|
 
 ## [Context](#context)
 
@@ -138,3 +143,4 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 ## [Author Information](#author-information)
 
 [Shadow Walker](https://buluma.github.io/)
+

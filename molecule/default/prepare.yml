@@ -6,7 +6,7 @@
 
   roles:
     - role: buluma.bootstrap
-    - role: hurricanehrndz.pyenv
-    - role: hurricanehrndz.fnm
-    - role: hurricanehrndz.rustup
+    # - role: hurricanehrndz.pyenv
+    # - role: hurricanehrndz.fnm
+    # - role: hurricanehrndz.rustup
     - role: buluma.git
