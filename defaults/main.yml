@@ -1,34 +1,39 @@
+# Default variables for 'neovim' role
+#
+# These variables have the lowest priority of any variables available, and can
+# be easily overridden by any other variable, including inventory variables.
+#
+# (See Using Variables for more information)
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#playbooks-variables
 ---
-# defaults file for ansible-nvim
-nvim_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+# application versions
+neovim_version: "0.9.5"
+treesitter_version: "0.22.2"
 
-nvim_python_ver: 3.9.0
+# variables for downloading appimages
+nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
+nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim.appimage"
+treesitter_dl_dir: "/opt/treesitter/{{ treesitter_version }}"
+treesitter_dl_name: "tree-sitter-linux-x64.gz"
+treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{ treesitter_version }}/{{ treesitter_dl_name }}"
+treesitter_filename: "tree-sitter-linux-x64"
 
-nvim_python_mods:
-  - pynvim
-  - neovim-remote
-  - pyls-mypy
-  - "python-language-server[all]"
+# toggles for end-users
+neovim: true
+treesitter: true
+neovim_nightly: false
 
-nvim_git_repo: https://github.com/hurricanehrndz/nvim.git
-nvim_git_branch: lua
-nvim_fzf_bin_only: false
-nvim_fnm_root_suffix: ".local/share/fnm"
-nvim_pyenv_root_suffix: ".local/share/pyenv"
-nvim_nodejs_version: "14.15.0"
-nvim_npm_global_pkgs:
-  - name: neovim
+neovim_pde: false
+neovim_apt_packages: []
+neovim_pip_packages: []
+neovim_npm_packages: []
+neovim_config_dirs: []
+neovim_external_config: []
+neovim_config_syncs: []
 
-# install fzf
-nvim_install_fzf: true
-
-# allow crates override
-nvim_cargo_crates: []
-nvim_install_rls: true
-
-# lsp servers to install
-nvim_lsp_servers:
-  - yamlls
-  - bashls
-  - tsserver
-  - vimls
+# digging deeper
+neovim_pip3_packager_state: latest
+neovim_npm_packager_state: latest
+neovim_pip3_state: latest
+neovim_apt_state: latest
+...

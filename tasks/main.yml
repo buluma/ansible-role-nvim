@@ -1,28 +1,36 @@
+# tasks file for neovim
 ---
-# tasks file for ansible-pyenv
-- name: Set distro-specific variables
-  ansible.builtin.include_vars: '{{ item }}'
-  with_first_found:
-    - '{{ ansible_os_family }}.yml'
-    - default.yml
 
-# tasks file for ansible-nvim
-- name: Import assert.yml
-  ansible.builtin.import_tasks:
-    file: 01-define-role-facts.yml
+- when: ansible_architecture == "x86_64"
+  block:
 
-- name: Define role facts
-  ansible.builtin.import_tasks:
-    file: 01-define-role-facts.yml
+  - name: "Ensure FUSE installed for using appimages."
+    ansible.builtin.apt:
+      name:
+        - libfuse2
+      state: latest
+    when: ansible_os_family == "Debian"
 
-- name: Build and install neovim
-  ansible.builtin.import_tasks:
-    file: 02-install-neovim.yml
+  - name: "Latest nvim installed."
+    ansible.builtin.include_tasks: install-neovim.yml
+    when: neovim | bool
 
-- name: Install neovim providers
-  ansible.builtin.import_tasks:
-    file: 03-install-neovim-helpers.yml
+  - name: "Latest tree-sitter installed."
+    ansible.builtin.include_tasks: install-treesitter.yml
+    when: treesitter | bool
 
-- name: Install nvim config and prerequistes
-  ansible.builtin.import_tasks:
-    file: 04-install-neovim-rc.yml
+  - name: "Nightly neovim installed as 'nnvim'."
+    ansible.builtin.get_url:
+      url: "{{ nvim_nightly_url }}"
+      dest: /usr/local/bin/nnvim
+      owner: root
+      group: root
+      mode: '0755'
+    when: neovim_nightly | bool
+
+  - name: "Neovim PDE (Personal Development Environment)"
+    ansible.builtin.include_tasks: neovim-PDE.yml
+    when: neovim_pde | bool
+
+...
+# vim : filetype=yaml.ansible :
