@@ -1,9 +1,6 @@
 ---
 roles:
   - name: buluma.bootstrap
-  - name: hurricanehrndz.pyenv
-  - name: hurricanehrndz.fnm
-  - name: hurricanehrndz.rustup
   - name: buluma.git
 collections:
   - name: community.general
