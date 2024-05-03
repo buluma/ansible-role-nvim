@@ -22,9 +22,6 @@ galaxy_info:
     - name: opensuse
       versions:
         - all
-    - name: Alpine
-      versions:
-        - all
   galaxy_tags:
     - development
     - nvim
