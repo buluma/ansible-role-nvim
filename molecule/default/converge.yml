@@ -7,11 +7,11 @@
     fnm_npmrc_suffix: ".config/npm/config"
   tasks:
     - name: Add hurricanehrndz user
-      user:
+      ansible.builtin.user:
         name: "{{ nvim_user }}"
-        create_home: yes
+        create_home: true
         shell: /bin/bash
 
     - name: Run nvim role
-      include_role:
+      ansible.builtin.include_role:
         name: nvim

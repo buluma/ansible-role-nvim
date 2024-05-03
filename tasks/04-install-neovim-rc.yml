@@ -9,7 +9,7 @@
     executable: /bin/bash
   environment:
     HOME: "{{ nvim_user_home }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Clone nvim config from git repo
@@ -19,7 +19,7 @@
     dest: "{{ nvim_git_dest }}"
   register: nvim_git_result
   changed_when: "nvim_git_result.after|default('after') != nvim_git_result.before|default('before')"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Ensure XDG_RUNTIME_DIR exsists
@@ -42,7 +42,7 @@
     PATH: "{{ pyenv_root }}/bin:{{ fnm_default_nodejs_path }}:/usr/loca/bin:{{ ansible_env.PATH }}"
   register: nvim_plugin_install
   changed_when: nvim_plugin_install.stdout_lines|length > 5
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Define lsp cache dir
@@ -67,7 +67,7 @@
     XDG_CACHE_HOME: "{{ nvim_user_home }}/.cache"
     XDG_CONFIG_HOME: "{{ nvim_user_home }}/.config"
   with_items: "{{ nvim_lsp_servers }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Install lua-language-server manually
@@ -106,5 +106,5 @@
         creates: "{{ lua_ls_dest }}/bin/Linux/lua-language-server"
   environment:
     HOME: "{{ nvim_user_home }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"

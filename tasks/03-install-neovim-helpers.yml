@@ -5,7 +5,7 @@
     executable: "{{ pyenv_root }}/versions/{{ nvim_python_ver }}/bin/pip"
   environment:
     PYENV_ROOT: "{{ pyenv_root }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Rehash pip modules
@@ -18,7 +18,7 @@
   environment:
     PYENV_ROOT: "{{ pyenv_root }}"
     PATH: "{{ pyenv_root }}/bin:{{ ansible_env.PATH }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
 
 - name: Install system requirements for LSP clients
@@ -35,7 +35,7 @@
     PATH: "{{ ansible_env.PATH }}:{{ rustup_user_home }}/{{ rustup_cargo_home_suffix }}/bin"
     RUSTUP_HOME: "{{ rustup_user_home }}/{{ rustup_home_suffix }}"
     CARGO_HOME: "{{ rustup_user_home }}/{{ rustup_cargo_home_suffix }}"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
   when:
     - nvim_install_rls|default(false)
@@ -51,7 +51,7 @@
       chmod +x ~/.local/bin/rust-analyzer
     executable: /bin/bash
     creates: "{{ nvim_user_home }}/.local/bin/rust-analyzer"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
   when: nvim_install_rls|default(false)
 
@@ -62,7 +62,7 @@
     dest: "{{ nvim_user_home }}/.local/share/fzf/"
     version: master
     depth: 1
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
   when: nvim_install_fzf|default(false)
 
@@ -78,6 +78,6 @@
         {%- endif %}
     executable: /bin/bash
     creates: "{{ nvim_user_home }}/.local/share/fzf/bin/fzf"
-  become: yes
+  become: true
   become_user: "{{ nvim_user }}"
   when: nvim_install_fzf|default(false)
