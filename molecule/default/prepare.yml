@@ -8,5 +8,5 @@
     - role: buluma.bootstrap
     - role: buluma.git
     - role: hurricanehrndz.pyenv
-    - role: hurricanehrndz.fnm
+    # - role: hurricanehrndz.fnm
     - role: hurricanehrndz.rustup
