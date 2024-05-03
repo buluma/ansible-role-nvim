@@ -1,5 +1,5 @@
 ---
-- name: Install vim plugin manager
+- name: 04-install-neovim-rc | Install vim plugin manager
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
@@ -12,7 +12,7 @@
   become: true
   become_user: "{{ nvim_user }}"
 
-- name: Clone nvim config from git repo
+- name: 04-install-neovim-rc | Clone nvim config from git repo
   ansible.builtin.git:
     repo: "{{ nvim_git_repo }}"
     version: "{{ nvim_git_branch }}"
@@ -22,7 +22,7 @@
   become: true
   become_user: "{{ nvim_user }}"
 
-- name: Ensure XDG_RUNTIME_DIR exsists
+- name: 04-install-neovim-rc | Ensure XDG_RUNTIME_DIR exsists
   ansible.builtin.file:
     path: /run/user/{{ nvim_user_uid }}
     state: directory
@@ -30,7 +30,7 @@
     group: "{{ nvim_user_gid }}"
     mode: 0700
 
-- name: Install neovim plugins
+- name: 04-install-neovim-rc | Install neovim plugins
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
@@ -45,11 +45,11 @@
   become: true
   become_user: "{{ nvim_user }}"
 
-- name: Define lsp cache dir
+- name: 04-install-neovim-rc | Define lsp cache dir
   ansible.builtin.set_fact:
     lsp_cache_home: "{{ nvim_user_home }}/.cache/nvim/lspconfig"
 
-- name: Install Language Servers
+- name: 04-install-neovim-rc | Install Language Servers
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
@@ -70,9 +70,9 @@
   become: true
   become_user: "{{ nvim_user }}"
 
-- name: Install lua-language-server manually
+- name: 04-install-neovim-rc | Install lua-language-server manually
   block:
-    - name: Make reuqired directory
+    - name: 04-install-neovim-rc | Make reuqired directory
       ansible.builtin.file:
         path: "{{ lsp_cache_home }}/sumneko_lua"
         state: directory
@@ -80,11 +80,11 @@
         owner: "{{ nvim_user_uid }}"
         group: "{{ nvim_user_gid }}"
 
-    - name: Define lua-language-server dest
+    - name: 04-install-neovim-rc | Define lua-language-server dest
       ansible.builtin.set_fact:
         lua_ls_dest: "{{ lsp_cache_home }}/sumneko_lua/lua-language-server"
 
-    - name: Clone lua-language-server source
+    - name: 04-install-neovim-rc | Clone lua-language-server source
       ansible.builtin.git:
         version: master
         repo: https://github.com/sumneko/lua-language-server.git
@@ -93,7 +93,7 @@
       register: lua_ls_git_result
       changed_when: "lua_ls_git_result.after|default('after') != lua_ls_git_result.before|default('before')"
 
-    - name: Build lua-language-server
+    - name: 04-install-neovim-rc | Build lua-language-server
       ansible.builtin.shell:
         cmd: |
           cd 3rd/luamake

@@ -14,4 +14,4 @@
 
     - name: Run nvim role
       ansible.builtin.include_role:
-        name: nvim
+        name: ansible-role-nvim

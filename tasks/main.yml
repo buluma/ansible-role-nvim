@@ -1,20 +1,20 @@
 ---
 # tasks file for ansible-pyenv
 - name: Set distro-specific variables
-  include_vars: '{{ item }}'
+  ansible.builtin.include_vars: '{{ item }}'
   with_first_found:
     - '{{ ansible_os_family }}.yml'
     - default.yml
 
 # tasks file for ansible-nvim
 - name: Define role facts
-  include_tasks: "01-define-role-facts.yml"
+  ansible.builtin.import_task: "01-define-role-facts.yml"
 
 - name: Build and install neovim
-  include_tasks: "02-install-neovim.yml"
+  ansible.builtin.import_task: "02-install-neovim.yml"
 
 - name: Install neovim providers
-  include_tasks: "03-install-neovim-helpers.yml"
+  ansible.builtin.import_task: "03-install-neovim-helpers.yml"
 
 - name: Install nvim config and prerequistes
-  include_tasks: "04-install-neovim-rc.yml"
+  ansible.builtin.import_task: "04-install-neovim-rc.yml"
