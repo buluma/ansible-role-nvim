@@ -12,33 +12,46 @@
   when: ansible_os_family == "Debian"
 
 - name: "Fedora - Ensure FUSE installed for using appimages."
-  ansible.builtin.apt:
+  ansible.builtin.dnf:
     name:
       - fuse
       - fuse-libs
     state: latest
-  when: ansible_os_family == "Fedora"
+  when: ansible_os_family == "RedHat"
 
-- name: "Latest nvim installed."
-  ansible.builtin.include_tasks: install-neovim.yml
-  when: neovim | bool
+- name: "Ensure NVIM is installed from packages."
+  ansible.builtin.package:
+    name: neovim
+    state: latest
 
-- name: "Latest tree-sitter installed."
-  ansible.builtin.include_tasks: install-treesitter.yml
-  when: treesitter | bool
+# - name: "Fedora - Ensure FUSE installed for using appimages."
+#   ansible.builtin.dnf:
+#     name:
+#       - fuse
+#       - fuse-libs
+#     state: latest
+#   when: ansible_os_family == "RedHat"
 
-- name: "Nightly neovim installed as 'nnvim'."
-  ansible.builtin.get_url:
-    url: "{{ nvim_nightly_url }}"
-    dest: /usr/local/bin/nnvim
-    owner: root
-    group: root
-    mode: '0755'
-  when: neovim_nightly | bool
-
-- name: "Neovim PDE (Personal Development Environment)"
-  ansible.builtin.include_tasks: neovim-PDE.yml
-  when: neovim_pde | bool
-
-...
-# vim : filetype=yaml.ansible :
+# - name: "Latest nvim installed."
+#   ansible.builtin.include_tasks: install-neovim.yml
+#   when: neovim | bool
+#
+# - name: "Latest tree-sitter installed."
+#   ansible.builtin.include_tasks: install-treesitter.yml
+#   when: treesitter | bool
+#
+# - name: "Nightly neovim installed as 'nnvim'."
+#   ansible.builtin.get_url:
+#     url: "{{ nvim_nightly_url }}"
+#     dest: /usr/local/bin/nnvim
+#     owner: root
+#     group: root
+#     mode: '0755'
+#   when: neovim_nightly | bool
+#
+# - name: "Neovim PDE (Personal Development Environment)"
+#   ansible.builtin.include_tasks: neovim-PDE.yml
+#   when: neovim_pde | bool
+#
+# ...
+# # vim : filetype=yaml.ansible :
