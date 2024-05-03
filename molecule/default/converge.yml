@@ -3,6 +3,9 @@
   hosts: all
   vars:
     nvim_user: shadowwalker
+    neovim: true
+    neovim_nightly: true
+    treesitter: true
   tasks:
     - name: Adding user
       ansible.builtin.user:
