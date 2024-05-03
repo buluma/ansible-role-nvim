@@ -2,11 +2,11 @@
 - name: Converge
   hosts: all
   vars:
-    nvim_user: shadowwalker
+    nvim_user: hurricanehrndz
     fnm_install_npmrc: true
     fnm_npmrc_suffix: ".config/npm/config"
   tasks:
-    - name: Add shadowwalker user
+    - name: Add hurricanehrndz user
       ansible.builtin.user:
         name: "{{ nvim_user }}"
         create_home: true
