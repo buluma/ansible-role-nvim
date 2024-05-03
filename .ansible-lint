@@ -16,6 +16,8 @@ exclude_paths:
 skip_list:
   - yaml[truthy]
   - no-free-form
+  - package-latest
+  - schema[meta]
 
 enable_list:
   - name[prefix]

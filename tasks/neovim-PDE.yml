@@ -22,6 +22,7 @@
 
 - name: "neovim-PDE | Latest PDE pip packages installed."
   become_user: "{{ primary_user }}"
+  become: true
   community.general.pipx:
     name: "{{ item }}"
     state: latest
