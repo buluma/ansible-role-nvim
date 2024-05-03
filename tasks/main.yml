@@ -4,12 +4,20 @@
 # - when: ansible_architecture == "x86_64"
 #   block:
 
-- name: "Ensure FUSE installed for using appimages."
+- name: "Debian - Ensure FUSE installed for using appimages."
   ansible.builtin.apt:
     name:
       - libfuse2
     state: latest
   when: ansible_os_family == "Debian"
+
+- name: "Fedora - Ensure FUSE installed for using appimages."
+  ansible.builtin.apt:
+    name:
+      - fuse
+      - fuse-libs
+    state: latest
+  when: ansible_os_family == "Fedora"
 
 - name: "Latest nvim installed."
   ansible.builtin.include_tasks: install-neovim.yml
