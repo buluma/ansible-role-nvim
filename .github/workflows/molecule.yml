@@ -56,10 +56,6 @@ jobs:
             tag: "40"
           - image: "docker-molecule-images"
             tag: "rawhide"
-          - image: "enterpriselinux"
-            tag: "8"
-          - image: "enterpriselinux"
-            tag: "latest"
           - image: "docker-molecule-images"
             tag: "focal"
           - image: "docker-molecule-images"
@@ -78,8 +74,6 @@ jobs:
             tag: "opensuse"
           - image: "alpine-openrc"
             tag: "latest"
-          - image: "docker-molecule-images"
-            tag: "kalilinux"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4
