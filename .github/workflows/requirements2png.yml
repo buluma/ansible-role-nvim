@@ -29,7 +29,7 @@ jobs:
         with:
           path: ${{ github.repository }}
       - name: create png
-        uses: buluma/graphviz-action@1.0.0  # TODO: Update action
+        uses: buluma/graphviz-action@1.0.0
       - name: Commit files
         run: |
           cd ${{ github.repository }}
