@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-nvim/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-nvim/compare/24.4.5...HEAD)
+
+**Closed issues:**
+
+- Update action [\#2](https://github.com/buluma/ansible-role-nvim/issues/2)
+
 ## [24.4.5](https://github.com/buluma/ansible-role-nvim/tree/24.4.5) (2024-05-03)
 
 [Full Changelog](https://github.com/buluma/ansible-role-nvim/compare/b5b9f84a23d167799ebb7223cab6e1cf6efa7260...24.4.5)
