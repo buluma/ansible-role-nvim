@@ -63,8 +63,6 @@ jobs:
           - image: "docker-molecule-images"
             tag: "jammy"
           - image: "docker-molecule-images"
-            tag: "noble"
-          - image: "docker-molecule-images"
             tag: "lunar"
           - image: "docker-molecule-images"
             tag: "buster"
