@@ -1,63 +1,50 @@
-# tasks file for neovim
----
-
-# - when: ansible_architecture == "x86_64"
-#   block:
-
-- name: "Debian - Ensure FUSE installed for using appimages."
+- name: Debian - Ensure FUSE installed for using appimages.
   ansible.builtin.apt:
-    name:
-      - libfuse2
+    name: [libfuse2]
     state: latest
   when: ansible_os_family == "Debian"
   # ubuntu -- python3-neovim
-
-- name: "Fedora - Ensure FUSE installed for using appimages."
+- name: Fedora - Ensure FUSE installed for using appimages.
   ansible.builtin.dnf:
-    name:
-      - fuse
-      - fuse-libs
+    name: [fuse, fuse-libs]
     state: latest
   when: ansible_os_family == "RedHat"
-
-# neovim python3-neovim - fedora
-# You can also get nightly builds of git master from the Copr automated build system:
-# dnf copr enable agriffis/neovim-nightly
-# dnf install -y neovim python3-neovim
-
 # Suse
 # To install the Python modules:
 # sudo zypper in python-neovim python3-neovim
-- name: "Ensure NVIM is installed from packages."
+- name: Ensure NVIM is installed from packages.
+  # neovim python3-neovim - fedora
+  # You can also get nightly builds of git master from the Copr automated build system:
+  # dnf copr enable agriffis/neovim-nightly
+  # dnf install -y neovim python3-neovim
+
   ansible.builtin.package:
     name: neovim
     state: latest
-
 - name: Verify nvim exists
   ansible.builtin.command: nvim -h
   register: result
   changed_when: result is not succeeded
-
 - name: Check nvim result
   ansible.builtin.debug:
     var: result
     verbosity: 2
-
-# - name: "Fedora - Ensure FUSE installed for using appimages."
-#   ansible.builtin.dnf:
-#     name:
-#       - fuse
-#       - fuse-libs
-#     state: latest
-#   when: ansible_os_family == "RedHat"
-
 # - name: "Latest nvim installed."
 #   ansible.builtin.include_tasks: install-neovim.yml
 #   when: neovim | bool
 #
-- name: "Latest tree-sitter installed."
+- name: Latest tree-sitter installed.
+  # - name: "Fedora - Ensure FUSE installed for using appimages."
+  #   ansible.builtin.dnf:
+  #     name:
+  #       - fuse
+  #       - fuse-libs
+  #     state: latest
+  #   when: ansible_os_family == "RedHat"
+
   ansible.builtin.include_tasks: install-treesitter.yml
   when: treesitter | bool
+
 #
 # - name: "Nightly neovim installed as 'nnvim'."
 #   ansible.builtin.get_url:
