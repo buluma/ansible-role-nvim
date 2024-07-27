@@ -7,6 +7,7 @@
     nvim_user: shadowwalker
     neovim: true
     neovim_nightly: false
+    neovim_pip3_state: false
     treesitter: true
   tasks:
     - name: Adding user
