@@ -20,6 +20,7 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
     nvim_user: shadowwalker
     neovim: true
     neovim_nightly: false
+    neovim_pip3_state: false
     treesitter: true
   tasks:
     - name: Adding user
@@ -125,7 +126,6 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 |[Fedora](https://hub.docker.com/r/buluma/fedora)|all|
 |[Ubuntu](https://hub.docker.com/r/buluma/ubuntu)|all|
 |[Debian](https://hub.docker.com/r/buluma/debian)|all|
-|[Archlinux](https://hub.docker.com/r/buluma/archlinux)|all|
 
 The minimum version of Ansible required is 2.4, tests have been done to:
 

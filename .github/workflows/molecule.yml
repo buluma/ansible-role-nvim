@@ -64,8 +64,6 @@ jobs:
             tag: "buster"
           - image: "docker-molecule-images"
             tag: "bullseye"
-          - image: "docker-molecule-images"
-            tag: "archlinux_latest"
     steps:
 
       - name: Docker Login
