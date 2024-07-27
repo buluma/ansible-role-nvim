@@ -29,6 +29,7 @@
     owner: root
     group: root
     mode: '0755'
+    ignore_errors: true
 
 ...
 # vim: foldlevel=1 : filetype=yaml.ansible :
