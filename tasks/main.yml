@@ -1,3 +1,4 @@
+---
 - name: Debian - Ensure FUSE installed for using appimages.
   ansible.builtin.apt:
     name: [libfuse2]
