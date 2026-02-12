@@ -5,4 +5,4 @@
 repository:
   description: Install and Configure NVIM on your Linux systems.
   homepage: https://buluma.github.io/
-  topics: development, nvim, neovim, editor, ansible, molecule, tox, playbook
+  topics: development, nvim, neovim, editor, ansible, molecule, playbook
