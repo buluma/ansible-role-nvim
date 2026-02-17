@@ -1,11 +1,11 @@
 ---
 galaxy_info:
-  role_name: nvim
   author: buluma
-  description: Install and Configure NVIM on your Linux systems.
-  company: ShadowNet
+  role_name: nvim
+  description: 'Install and Configure NVIM on your Linux systems.'
   license: Apache-2.0
-  min_ansible_version: "2.4"
+  company: ShadowNet
+  min_ansible_version: 2.4
   platforms:
     - name: Fedora
       versions:
@@ -16,9 +16,6 @@ galaxy_info:
     - name: Debian
       versions:
         - all
-    # - name: Archlinux
-    #   versions:
-    #     - all
   galaxy_tags:
     - development
     - nvim
