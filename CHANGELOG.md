@@ -7,6 +7,7 @@
 **Closed issues:**
 
 - Update action [\#2](https://github.com/buluma/ansible-role-nvim/issues/2)
+- rebuild action [\#1](https://github.com/buluma/ansible-role-nvim/issues/1)
 
 ## [24.4.5](https://github.com/buluma/ansible-role-nvim/tree/24.4.5) (2024-05-03)
 
