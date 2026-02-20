@@ -30,10 +30,8 @@ neovim_npm_packages: []
 neovim_config_dirs: []
 neovim_external_config: []
 neovim_config_syncs: []
-
 # digging deeper
 neovim_pip3_packager_state: latest
 neovim_npm_packager_state: latest
 neovim_pip3_state: latest
 neovim_apt_state: latest
-...

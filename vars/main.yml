@@ -2,4 +2,3 @@
 # yamllint disable rule:line-length
 ---
 nvim_nightly_url: "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-...

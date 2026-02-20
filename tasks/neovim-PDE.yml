@@ -1,6 +1,5 @@
 # Tasks to install neovim with my IDE-like configuration
 ---
-
 - name: "neovim-PDE | Latest PDE apt packages installed."
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -61,7 +60,7 @@
     state: directory
     owner: "{{ primary_user }}"
     group: "{{ primary_user }}"
-    mode: '0755'
+    mode: "0755"
   with_items: "{{ neovim_config_dirs }}"
   when: neovim_config_dirs | length > 0
 
@@ -71,7 +70,7 @@
     dest: "{{ item.dest }}"
     owner: "{{ primary_user }}"
     group: "{{ primary_user }}"
-    mode: '0644'
+    mode: "0644"
   loop: "{{ neovim_external_config }}"
   when: neovim_external_config | length > 0
 
@@ -94,6 +93,3 @@
     delete: true
   with_items: "{{ neovim_config_syncs }}"
   when: neovim_config_syncs | length > 0
-
-...
-# vim: foldlevel=1: filetype=yaml.ansible :
