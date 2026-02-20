@@ -2,13 +2,13 @@
 - name: Debian - Ensure FUSE installed for using appimages.
   ansible.builtin.apt:
     name: [libfuse2]
-    state: latest
+    state: present
   when: ansible_os_family == "Debian"
   # ubuntu -- python3-neovim
 - name: Fedora - Ensure FUSE installed for using appimages.
   ansible.builtin.dnf:
     name: [fuse, fuse-libs]
-    state: latest
+    state: present
   when: ansible_os_family == "RedHat"
 # Suse
 # To install the Python modules:
@@ -21,7 +21,7 @@
 
   ansible.builtin.package:
     name: neovim
-    state: latest
+    state: present
 - name: Verify nvim exists
   ansible.builtin.command: nvim -h
   register: result
