@@ -12,40 +12,40 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 
 ```yaml
 ---
-- name: Converge
-  hosts: all
-  become: true
-  gather_facts: true
-  vars:
-    nvim_user: shadowwalker
-    neovim: true
-    neovim_nightly: false
-    neovim_pip3_state: false
-    treesitter: true
-  tasks:
-    - name: Adding user
-      ansible.builtin.user:
-        name: "{{ nvim_user }}"
-        create_home: true
-        shell: /bin/bash
+  - name: Converge
+    hosts: all
+    become: true
+    gather_facts: true
+    vars:
+      nvim_user: shadowwalker
+      neovim: true
+      neovim_nightly: false
+      neovim_pip3_state: false
+      treesitter: true
+    tasks:
+      - name: Adding user
+        ansible.builtin.user:
+          name: "{{ nvim_user }}"
+          create_home: true
+          shell: /bin/bash
 
-    - name: Run nvim role
-      ansible.builtin.include_role:
-        name: ansible-role-nvim
+      - name: Run nvim role
+        ansible.builtin.include_role:
+          name: ansible-role-nvim
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/molecule/default/prepare.yml):
 
 ```yaml
 ---
-- name: Prepare
-  hosts: all
-  become: true
-  gather_facts: false
+  - name: Prepare
+    hosts: all
+    become: true
+    gather_facts: false
 
-  roles:
-    - role: buluma.bootstrap
-    - role: buluma.ca_certificates
+    roles:
+      - role: buluma.bootstrap
+      - role: buluma.ca_certificates
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -55,13 +55,6 @@ Also see a [full explanation and example](https://buluma.github.io/how-to-use-th
 The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/defaults/main.yml):
 
 ```yaml
-# Default variables for 'neovim' role
-#
-# These variables have the lowest priority of any variables available, and can
-# be easily overridden by any other variable, including inventory variables.
-#
-# (See Using Variables for more information)
-# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#playbooks-variables
 ---
 # application versions
 neovim_version: "0.9.5"
@@ -69,10 +62,12 @@ treesitter_version: "0.22.2"
 
 # variables for downloading appimages
 nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
-nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim.appimage"
+nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version
+  }}/nvim.appimage"
 treesitter_dl_dir: "/opt/treesitter/{{ treesitter_version }}"
 treesitter_dl_name: "tree-sitter-linux-x64.gz"
-treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{ treesitter_version }}/{{ treesitter_dl_name }}"
+treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{
+  treesitter_version }}/{{ treesitter_dl_name }}"
 treesitter_filename: "tree-sitter-linux-x64"
 
 # toggles for end-users

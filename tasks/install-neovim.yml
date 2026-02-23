@@ -1,4 +1,3 @@
-# Tasks to install latest neovim from appimage on GitHub
 ---
 - name: "install-neovim | Ensure old neovim from repository is absent."
   ansible.builtin.apt:

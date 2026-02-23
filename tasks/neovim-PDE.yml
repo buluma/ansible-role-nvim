@@ -1,4 +1,3 @@
-# Tasks to install neovim with my IDE-like configuration
 ---
 - name: "neovim-PDE | Latest PDE apt packages installed."
   ansible.builtin.apt:

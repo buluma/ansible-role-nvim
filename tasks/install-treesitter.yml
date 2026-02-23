@@ -1,4 +1,3 @@
-# Tasks to install the latest tree-sitter
 ---
 - name: "install-treesitter | Landing place for treesitter download exists."
   ansible.builtin.file:
