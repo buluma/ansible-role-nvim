@@ -12,40 +12,40 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 
 ```yaml
 ---
-  - name: Converge
-    hosts: all
-    become: true
-    gather_facts: true
-    vars:
-      nvim_user: shadowwalker
-      neovim: true
-      neovim_nightly: false
-      neovim_pip3_state: false
-      treesitter: true
-    tasks:
-      - name: Adding user
-        ansible.builtin.user:
-          name: "{{ nvim_user }}"
-          create_home: true
-          shell: /bin/bash
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    nvim_user: shadowwalker
+    neovim: true
+    neovim_nightly: false
+    neovim_pip3_state: false
+    treesitter: true
+  tasks:
+  - name: Adding user
+    ansible.builtin.user:
+      name: "{{ nvim_user }}"
+      create_home: true
+      shell: /bin/bash
 
-      - name: Run nvim role
-        ansible.builtin.include_role:
-          name: ansible-role-nvim
+  - name: Run nvim role
+    ansible.builtin.include_role:
+      name: ansible-role-nvim
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/molecule/default/prepare.yml):
 
 ```yaml
 ---
-  - name: Prepare
-    hosts: all
-    become: true
-    gather_facts: false
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: false
 
-    roles:
-      - role: buluma.bootstrap
-      - role: buluma.ca_certificates
+  roles:
+  - role: buluma.bootstrap
+  - role: buluma.ca_certificates
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
