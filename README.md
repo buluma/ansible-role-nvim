@@ -62,12 +62,10 @@ treesitter_version: "0.22.2"
 
 # variables for downloading appimages
 nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
-nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version
-  }}/nvim.appimage"
+nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim.appimage"
 treesitter_dl_dir: "/opt/treesitter/{{ treesitter_version }}"
 treesitter_dl_name: "tree-sitter-linux-x64.gz"
-treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{
-  treesitter_version }}/{{ treesitter_dl_name }}"
+treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{ treesitter_version }}/{{ treesitter_dl_name }}"
 treesitter_filename: "tree-sitter-linux-x64"
 
 # toggles for end-users
