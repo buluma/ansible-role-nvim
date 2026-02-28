@@ -45,7 +45,6 @@
 
   ansible.builtin.include_tasks: install-treesitter.yml
   when: treesitter | bool
-
 #
 # - name: "Nightly neovim installed as 'nnvim'."
 #   ansible.builtin.get_url:
