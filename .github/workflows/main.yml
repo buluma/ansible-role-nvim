@@ -16,55 +16,55 @@ jobs:
     strategy:
       matrix:
         tests:
-        - distro: "archlinux"
-          img: "archlinux/current"
-        - distro: "ubuntu"
-          img: "ubuntu/focal"
-        - distro: "fedora"
-          img: "fedora/33"
+          - distro: "archlinux"
+            img: "archlinux/current"
+          - distro: "ubuntu"
+            img: "ubuntu/focal"
+          - distro: "fedora"
+            img: "fedora/33"
 
     steps:
-    - name: Configure LXD
-      run: |
-        sudo /snap/bin/lxd.migrate -yes || true
-        sudo /snap/bin/lxd waitready
-        sudo /snap/bin/lxd init --auto
-        sudo usermod -a -G lxd ${USER}
+      - name: Configure LXD
+        run: |
+          sudo /snap/bin/lxd.migrate -yes || true
+          sudo /snap/bin/lxd waitready
+          sudo /snap/bin/lxd init --auto
+          sudo usermod -a -G lxd ${USER}
 
-    - name: Show LXD Info
-      run: |
-        sg lxd -c "/snap/bin/lxc info"
+      - name: Show LXD Info
+        run: |
+          sg lxd -c "/snap/bin/lxc info"
 
-    - uses: actions/setup-python@v6
-      with:
-        python-version: '3.x'
-        architecture: 'x64'
-    - uses: actions/checkout@v6
-      with:
-        path: nvim
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+          architecture: "x64"
+      - uses: actions/checkout@v6
+        with:
+          path: nvim
 
-    - name: Install molecule dependency
-      run: |
-        pip3 install -r requirements.txt
-      working-directory: nvim
+      - name: Install molecule dependency
+        run: |
+          pip3 install -r requirements.txt
+        working-directory: nvim
 
-    - uses: actions/cache@v5
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: Show version info of tools
-      run: |
-        python --version
-        molecule --version
-        ansible --version
+      - name: Show version info of tools
+        run: |
+          python --version
+          molecule --version
+          ansible --version
 
-    - name: Run molecule test
-      run: |
-        sg lxd -c "molecule test"
-      working-directory: nvim
-      env:
-        MLDISTRO: ${{ matrix.tests.distro }}
-        MLIMG: ${{ matrix.tests.img }}
+      - name: Run molecule test
+        run: |
+          sg lxd -c "molecule test"
+        working-directory: nvim
+        env:
+          MLDISTRO: ${{ matrix.tests.distro }}
+          MLIMG: ${{ matrix.tests.img }}

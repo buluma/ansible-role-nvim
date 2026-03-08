@@ -10,12 +10,12 @@
     neovim_pip3_state: false
     treesitter: true
   tasks:
-  - name: Adding user
-    ansible.builtin.user:
-      name: "{{ nvim_user }}"
-      create_home: true
-      shell: /bin/bash
+    - name: Adding user
+      ansible.builtin.user:
+        name: "{{ nvim_user }}"
+        create_home: true
+        shell: /bin/bash
 
-  - name: Run nvim role
-    ansible.builtin.include_role:
-      name: ansible-role-nvim
+    - name: Run nvim role
+      ansible.builtin.include_role:
+        name: ansible-role-nvim
