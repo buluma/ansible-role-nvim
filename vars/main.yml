@@ -1,2 +1,3 @@
 ---
 nvim_nightly_url: "https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
+# Additional Neovim vars can be added here when needed.
