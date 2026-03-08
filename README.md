@@ -31,7 +31,7 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 
     - name: Run nvim role
       ansible.builtin.include_role:
-        name: ansible-role-nvim
+        name: buluma.nvim
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-nvim/blob/master/molecule/default/prepare.yml):
@@ -133,3 +133,4 @@ If you find issues, please register them on [GitHub](https://github.com/buluma/a
 ## [Author Information](#author-information)
 
 [buluma](https://buluma.github.io/)
+
