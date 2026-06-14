@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     name: neovim
     state: absent
-  when: ansible_os_family == "Debian" || ansible_os_family == "RedHat"
+  when: ansible_facts.os_family == "Debian" || ansible_facts.os_family == "RedHat"
 
 - name: "install-neovim | Landing place for nvim download exists."
   ansible.builtin.file:
