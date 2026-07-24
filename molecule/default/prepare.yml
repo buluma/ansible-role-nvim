@@ -36,3 +36,4 @@
   roles:
     - role: buluma.bootstrap
     - role: buluma.ca_certificates
+    - role: buluma.epel
