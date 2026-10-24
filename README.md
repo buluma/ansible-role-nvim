@@ -86,12 +86,12 @@ The default values for the variables are set in [`defaults/main.yml`](https://gi
 ```yaml
 ---
 # application versions
-neovim_version: "0.9.5"
+neovim_version: "0.12.6"
 treesitter_version: "0.22.2"
 
 # variables for downloading appimages
 nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
-nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim.appimage"
+nvim_appimage_url: "https://github.com/neovim/neovim/releases/download/v{{ neovim_version }}/nvim-linux-x86_64.appimage"
 treesitter_dl_dir: "/opt/treesitter/{{ treesitter_version }}"
 treesitter_dl_name: "tree-sitter-linux-x64.gz"
 treesitter_archive_url: "https://github.com/tree-sitter/tree-sitter/releases/download/v{{ treesitter_version }}/{{ treesitter_dl_name }}"
