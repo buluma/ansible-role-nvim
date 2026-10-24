@@ -87,7 +87,7 @@ The default values for the variables are set in [`defaults/main.yml`](https://gi
 ---
 # application versions
 neovim_version: "0.12.6"
-treesitter_version: "0.22.2"
+treesitter_version: "0.27.1"
 
 # variables for downloading appimages
 nvim_dl_dir: "/opt/nvim/{{ neovim_version }}"
